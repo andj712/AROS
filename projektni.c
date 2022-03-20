@@ -71,14 +71,14 @@ void* reader(void* arg) {
 							//ako bi dosao writer u medjuvremenu zbog turnstile ne bi mogli novi readeri tj. bice privremeno blokirani a ovaj writer ce cekati da soba bude prazna tj. svi readeri odu
 	sem_post(&turnstile);  
 	sem_wait(&mutex);//mutex je kao token dozvoljava jednoj niti da bude procesuirana, znaci kad vise citalaca dodje
-	brReaders++;//dosao je jos jedan citaoc
+	brReaders++;//dosao je jos jedan citalac
 
 	if (brReaders == 1) {
 		sem_wait(&roomEmpty);//prvi reader mora da ceka ako nije prazna 
 	}
 
 	sem_post(&mutex);
-	//sada citaoc korsti(cita) bazu podataka,kriticna sekcija
+	//sada citalac korsti(cita) bazu podataka,kriticna sekcija
 	printf("%d. cita\n", *(int*)arg + 1);
 
 	sem_wait(&mutex);
